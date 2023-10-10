@@ -1,9 +1,14 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Minimal AWA5.0 Interpreter</title>
     <script src="awa5_help.js"></script>
+    <script src="https://temptempai.github.io/AWA5.0/awa5.js"></script>
   </head>
-  <body style="font-family: Comic Sans MS; background-color: lightblue">
+  <body
+    style="font-family: Comic Sans MS; background-color: lightblue"
+    onload="updateTranslation()"
+  >
     <div style="position: absolute; right: 8px; top: 8px; display: flex">
       <div style="display: flex; flex-direction: column; gap: 32px">
         <textarea
@@ -15,6 +20,10 @@
           onkeyup="updateTranslation()"
           spellcheck="false"
           style="resize: vertical"
+          placeholder='Write some code here, like: 
+
+blo "Awawa world!"rs
+prn'
         ></textarea>
         <textarea
           name="awanaryCode"
@@ -32,7 +41,6 @@
           <td style="vertical-align: top">
             <h1 id="title">Minimal AWA5.0 Interpreter</h1>
             <h2 id="title">Barely Functional 💪</h2>
-            <script src="awa5.js"></script>
             <h3 id="title" style="margin-bottom: 0">Input</h3>
             <textarea
               rows="5"
