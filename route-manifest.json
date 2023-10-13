@@ -1,0 +1,44 @@
+{
+  "/": {
+    "type": "route",
+    "script": {
+      "type": "script",
+      "href": "/AWA5.0/assets/index-5ef7f38c.js"
+    },
+    "assets": [
+      {
+        "type": "script",
+        "href": "/AWA5.0/assets/index-5ef7f38c.js"
+      },
+      {
+        "type": "script",
+        "href": "/AWA5.0/assets/entry-client-01cc567e.js"
+      },
+      {
+        "type": "style",
+        "href": "/AWA5.0/assets/entry-client-0de75984.css"
+      }
+    ]
+  },
+  "entry-client": {
+    "type": "entry",
+    "script": {
+      "type": "script",
+      "href": "/AWA5.0/assets/entry-client-01cc567e.js"
+    },
+    "assets": [
+      {
+        "type": "script",
+        "href": "/AWA5.0/assets/entry-client-01cc567e.js"
+      },
+      {
+        "type": "style",
+        "href": "/AWA5.0/assets/entry-client-0de75984.css"
+      }
+    ]
+  },
+  "index.html": {
+    "type": "entry",
+    "assets": []
+  }
+}
