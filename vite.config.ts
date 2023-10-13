@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => {
   return {
-    base: "/awa/",
+    base: "/AWA5.0/",
     plugins: [solid({ adapter: staticAdapter() })],
     resolve: {
       alias: {
