@@ -88,7 +88,7 @@ const translateToAwa = (str) => {
           }
           if (modifiers.surround && (counter & 31) !== 31) {
             ret += "\n " + numberToAwa(Insn.srn, 5, false);
-            ret += numberToAwa((letters.length & 31) + 1, 5, false);
+            ret += numberToAwa(letters.length & 31, 5, false);
             if (counter > 31) ret += "\n " + numberToAwa(Insn.mrg, 5, false);
           }
         }
@@ -139,4 +139,9 @@ const updateTranslation = () => {
   const input = document.getElementById("awatismCode");
   const output = document.getElementById("awanaryCode");
   output.value = translateToAwa(input.value);
+
+  const copyCode = document.getElementById("copyCodeAutomatically");
+  if (copyCode.checked) {
+    document.getElementById("codeField").value = output.value;
+  }
 };
