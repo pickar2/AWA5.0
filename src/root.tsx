@@ -11,7 +11,6 @@ import {
   Routes,
   Scripts,
   Title,
-  Link,
 } from "solid-start";
 
 export default function Root() {

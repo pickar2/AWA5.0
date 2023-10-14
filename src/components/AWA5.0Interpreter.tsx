@@ -1,4 +1,3 @@
-import { keysOfEnum } from "@/lib/utils";
 import type { Accessor, Setter } from "solid-js";
 
 export enum awatisms {
@@ -23,6 +22,7 @@ export enum awatisms {
   "eql" = 18,
   "lss" = 19,
   "gr8" = 20,
+  "clr" = 29,
   "slp" = 30,
   "trm" = 31,
 }
@@ -144,6 +144,7 @@ function timeout(ms: number) {
 export async function runCode(
   codeStr: string,
   writeToOutput: (str: string) => void,
+  setOutput: (str: string) => void,
   getInput: () => Promise<string>,
   info: Accessor<RunInfo>,
   setState: Setter<RunInfo>
@@ -155,9 +156,9 @@ export async function runCode(
   const lblTable: number[] = [];
   const bubbleAbyss: Bubble[] = [];
 
-  let commandsCount = 0;
+  // let commandsCount = 0;
   for (let i = 0; i < commandsList.length; i++) {
-    commandsCount++;
+    // commandsCount++;
     switch (commandsList[i]) {
       case awatisms.lbl:
         //Main case to catch, store in table
@@ -177,7 +178,7 @@ export async function runCode(
 
   //step through each
   let i = 0;
-  let commandTime = 0;
+  // let commandTime = 0;
   let executed = 0;
   while (i < commandsList.length && info().state != State.Stopped) {
     executed++;
@@ -448,6 +449,11 @@ export async function runCode(
         break;
       }
 
+      case awatisms.clr: {
+        setOutput("");
+        break;
+      }
+
       case awatisms.slp: {
         const bubble = bubbleAbyss.pop();
         if (typeof bubble === "undefined") break;
@@ -464,7 +470,7 @@ export async function runCode(
     }
 
     //Next command
-    if (commandsList[i] != awatisms.lbl) commandTime++;
+    // if (commandsList[i] != awatisms.lbl) commandTime++;
     i++;
   }
 

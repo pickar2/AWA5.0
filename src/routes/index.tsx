@@ -68,7 +68,6 @@ const Home: VoidComponent = () => {
   let inputButtonRef: HTMLButtonElement | undefined;
 
   let awatismInputRef: HTMLTextAreaElement | undefined;
-  // let decompileInputRef: HTMLTextAreaElement | undefined;
 
   let lastResolve: ((value: string | PromiseLike<string>) => void) | undefined;
 
@@ -91,6 +90,35 @@ const Home: VoidComponent = () => {
     if (!awatismInputRef || !awaInputRef) return;
 
     awatismInputRef.value = awaToAwatisms(awaInputRef.value);
+  };
+
+  const writeToOutput = (str: string) => {
+    if (!outputRef) return;
+    outputRef.value += str;
+    outputRef.scrollTop = outputRef.scrollHeight;
+  };
+
+  const setOutput = (str: string) => {
+    if (!outputRef) return;
+    outputRef.value = str;
+  };
+
+  const getInput = async (): Promise<string> => {
+    setWaitingForInput(true);
+    setRunInfo({ ...runInfo(), state: State.Paused });
+    return new Promise((resolve) => {
+      lastResolve = resolve;
+      inputButtonRef!.addEventListener(
+        "click",
+        () => {
+          setWaitingForInput(false);
+          setRunInfo({ ...runInfo(), state: State.Running });
+          lastResolve = undefined;
+          resolve(userInputRef!.value);
+        },
+        { once: true }
+      );
+    });
   };
 
   return (
@@ -165,33 +193,10 @@ const Home: VoidComponent = () => {
 
                   outputRef.value = "";
 
-                  const writeToOutput = (str: string) => {
-                    if (!outputRef) return;
-                    outputRef.value += str;
-                    outputRef.scrollTop = outputRef.scrollHeight;
-                  };
-
-                  const getInput = async (): Promise<string> => {
-                    setWaitingForInput(true);
-                    setRunInfo({ ...runInfo(), state: State.Paused });
-                    return new Promise((resolve) => {
-                      lastResolve = resolve;
-                      inputButtonRef!.addEventListener(
-                        "click",
-                        () => {
-                          setWaitingForInput(false);
-                          setRunInfo({ ...runInfo(), state: State.Running });
-                          lastResolve = undefined;
-                          resolve(userInputRef!.value);
-                        },
-                        { once: true }
-                      );
-                    });
-                  };
-
                   void runCode(
                     awaInputRef!.value,
                     writeToOutput,
+                    setOutput,
                     getInput,
                     runInfo,
                     setRunInfo
