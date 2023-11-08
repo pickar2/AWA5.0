@@ -107,13 +107,11 @@ const Home: VoidComponent = () => {
     setWaitingForInput(true);
     setRunInfo({ ...runInfo(), state: State.Paused });
     return new Promise((resolve) => {
-      lastResolve = resolve;
       inputButtonRef!.addEventListener(
         "click",
         () => {
           setWaitingForInput(false);
           setRunInfo({ ...runInfo(), state: State.Running });
-          lastResolve = undefined;
           resolve(userInputRef!.value);
         },
         { once: true }
@@ -126,7 +124,7 @@ const Home: VoidComponent = () => {
       <main class="bg-slate-900 min-h-screen">
         <div class="flex absolute justify-center items-center w-full h-full opacity-30 pointer-events-none">
           <div class="relative">
-            <div class="absolute w-[33%] h-[17%] top-[8%] right-[27%] rounded-full rotate-[20deg] cursor-[grabbing] pointer-events-auto" />
+            <div class="opacity-0 absolute w-[33%] h-[17%] top-[8%] right-[27%] rounded-full rotate-[20deg] cursor-[grabbing] pointer-events-auto" />
             <img
               class="pointer-events-none select-none"
               src="/AWA5.0/jellyAwa.png"
@@ -157,9 +155,6 @@ const Home: VoidComponent = () => {
             <Button
               variant={"outline"}
               disabled={!waitingForInput()}
-              onClick={() => {
-                setWaitingForInput(false);
-              }}
               ref={inputButtonRef}
             >
               Input
