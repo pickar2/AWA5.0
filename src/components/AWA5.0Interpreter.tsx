@@ -669,7 +669,7 @@ function printBubble(
     for (let i = bubbleArr.length - 1; i >= 0; i--) {
       currentString = printBubble(currentString, bubbleArr[i], numbersOut);
     }
-    currentString += " ";
+    // currentString += " ";
     // writeToOutput(" ");
   }
   return currentString;
