@@ -1,30 +1,15 @@
-import type { RunInfo } from "@/components/AWA5.0Interpreter";
+import type { RunInfo } from "@/AWA5.1slInterpreter";
 import {
   State,
   runCode,
   awatismsToAwa,
   awaToAwatisms,
-} from "@/components/AWA5.0Interpreter";
+} from "@/AWA5.1slInterpreter";
+import { Header } from "@/components/ui/Header";
+import { TextArea } from "@/components/ui/TextArea";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import type { Accessor, JSX, JSXElement, Setter } from "solid-js";
+import type { Accessor, JSXElement, Setter } from "solid-js";
 import { createSignal, onCleanup, onMount, type VoidComponent } from "solid-js";
-
-const TextArea = (
-  props: JSX.TextareaHTMLAttributes<HTMLTextAreaElement>
-): JSX.Element => {
-  return (
-    <textarea
-      rows="3"
-      spellcheck={false}
-      {...props}
-      class={cn(
-        "border-[1px] border-border bg-slate-900 p-1 outline-none transition-colors hover:bg-slate-800 focus:bg-slate-800 focus:border-x-slate-200 disabled:opacity-50 resize",
-        props.class
-      )}
-    />
-  );
-};
 
 const RunState = (props: {
   info: Accessor<RunInfo>;
@@ -69,17 +54,6 @@ const Home: VoidComponent = () => {
 
   let awatismInputRef: HTMLTextAreaElement | undefined;
 
-  let lastResolve: ((value: string | PromiseLike<string>) => void) | undefined;
-
-  const stopExecution = () => {
-    setRunInfo({ ...runInfo(), state: State.Stopped });
-    setWaitingForInput(false);
-
-    if (lastResolve) {
-      lastResolve("");
-    }
-  };
-
   const updateTranslation = () => {
     if (!awatismInputRef || !awaInputRef) return;
 
@@ -103,26 +77,40 @@ const Home: VoidComponent = () => {
     outputRef.value = str;
   };
 
+  let lastResolve: ((value: string | PromiseLike<string>) => void) | undefined;
+
+  const inputCallback = () => {
+    if (lastResolve) {
+      setWaitingForInput(false);
+      setRunInfo({ ...runInfo(), state: State.Running });
+      lastResolve(userInputRef!.value);
+    }
+  };
+
   const getInput = async (): Promise<string> => {
     setWaitingForInput(true);
     setRunInfo({ ...runInfo(), state: State.Paused });
     return new Promise((resolve) => {
-      inputButtonRef!.addEventListener(
-        "click",
-        () => {
-          setWaitingForInput(false);
-          setRunInfo({ ...runInfo(), state: State.Running });
-          resolve(userInputRef!.value);
-        },
-        { once: true }
-      );
+      lastResolve = resolve;
+      inputButtonRef!.addEventListener("click", inputCallback, { once: true });
     });
+  };
+
+  const stopExecution = () => {
+    setRunInfo({ ...runInfo(), state: State.Stopped });
+    setWaitingForInput(false);
+    inputButtonRef?.removeEventListener("click", inputCallback);
+
+    if (lastResolve) {
+      lastResolve("");
+    }
   };
 
   return (
     <>
       <main class="bg-slate-900 min-h-screen">
-        <div class="flex absolute justify-center items-center w-full h-full opacity-30 pointer-events-none">
+        <Header />
+        <div class="flex absolute justify-center items-center w-full opacity-30 pointer-events-none">
           <div class="relative">
             <div class="opacity-0 absolute w-[33%] h-[17%] top-[8%] right-[27%] rounded-full rotate-[20deg] cursor-[grabbing] pointer-events-auto" />
             <img
@@ -132,7 +120,7 @@ const Home: VoidComponent = () => {
             />
           </div>
         </div>
-        <div class="flex absolute top-4 right-4 flex-col gap-4">
+        <div class="float-right p-4">
           <TextArea
             ref={awatismInputRef}
             class="w-[500px] resize-y"
@@ -153,6 +141,7 @@ const Home: VoidComponent = () => {
               disabled={!waitingForInput()}
             />
             <Button
+              class="w-24"
               variant={"outline"}
               disabled={!waitingForInput()}
               ref={inputButtonRef}
@@ -176,6 +165,7 @@ const Home: VoidComponent = () => {
             <div class="flex flex-col gap-2 justify-center">
               <RunState info={runInfo} setState={setRunInfo} />
               <Button
+                class="w-24"
                 variant={"outline"}
                 disabled={runInfo().state != State.Stopped}
                 onclick={() => {
@@ -201,6 +191,7 @@ const Home: VoidComponent = () => {
                 Run
               </Button>
               <Button
+                class="w-24"
                 variant={"outline"}
                 disabled={runInfo().state == State.Stopped}
                 onclick={stopExecution}
@@ -215,11 +206,59 @@ const Home: VoidComponent = () => {
               class="w-[500px]"
               name="output"
               id="output"
-              disabled={runInfo().state == State.Running}
+              readonly
             />
+            <div class="flex flex-col gap-2">
+              <Button
+                class="w-24"
+                variant={"outline"}
+                disabled={runInfo().state != State.Stopped}
+                onclick={() => {
+                  if (outputRef) {
+                    outputRef.value = "";
+                  }
+                }}
+              >
+                Clear
+              </Button>
+            </div>
           </div>
+          {/* <div class="flex flex-col w-[400px] gap-1">
+            <div class="flex flex-row justify-center">
+              <TextArea
+                class="resize-none h-7 w-12 text-center py-0"
+                innerText={"400"}
+                maxLength={4}
+                oninput={(e) => {
+                  const numbers = e.target.value.replace(/\D+/gi, "");
+                  e.target.value = numbers;
+                }}
+              />
+              <span class="px-2 select-none">X</span>
+              <TextArea
+                class="resize-none h-7 w-12 text-center py-0"
+                innerText={"300"}
+                maxLength={4}
+                oninput={(e) => {
+                  const numbers = e.target.value.replace(/\D+/gi, "");
+                  e.target.value = numbers;
+                }}
+              />
+            </div>
+            <div class="flex relative">
+              <div class="absolute w-full h-full flex text-center items-center justify-center pointer-events-none">
+                <span class="select-none">No content</span>
+              </div>
+
+              <canvas
+                width={400}
+                height={300}
+                class="border-[1px] border-border z-10 bg-slate-950/70"
+              />
+            </div>
+          </div> */}
         </div>
-        <div class="absolute bottom-1 left-1">Awa5.0 Logo by Sena Bonbon</div>
+        <div class="fixed bottom-1 right-1">Awa5.0 Logo by Sena Bonbon</div>
       </main>
     </>
   );
