@@ -1,10 +1,10 @@
-import type { RunInfo } from "@/AWA5.1slInterpreter";
+import type { RunInfo } from "@/AWA5.0Interpreter";
 import {
   State,
   runCode,
   awatismsToAwa,
   awaToAwatisms,
-} from "@/AWA5.1slInterpreter";
+} from "@/AWA5.0Interpreter";
 import { Header } from "@/components/ui/Header";
 import { TextArea } from "@/components/ui/TextArea";
 import { Button } from "@/components/ui/button";
