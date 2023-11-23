@@ -3,16 +3,16 @@
     "type": "route",
     "script": {
       "type": "script",
-      "href": "/AWA5.0/assets/index-d3c37e99.js"
+      "href": "/AWA5.0/assets/index-42d0fb76.js"
     },
     "assets": [
       {
         "type": "script",
-        "href": "/AWA5.0/assets/index-d3c37e99.js"
+        "href": "/AWA5.0/assets/index-42d0fb76.js"
       },
       {
         "type": "script",
-        "href": "/AWA5.0/assets/entry-client-3df95e6d.js"
+        "href": "/AWA5.0/assets/entry-client-0305db13.js"
       },
       {
         "type": "style",
@@ -24,12 +24,12 @@
     "type": "entry",
     "script": {
       "type": "script",
-      "href": "/AWA5.0/assets/entry-client-3df95e6d.js"
+      "href": "/AWA5.0/assets/entry-client-0305db13.js"
     },
     "assets": [
       {
         "type": "script",
-        "href": "/AWA5.0/assets/entry-client-3df95e6d.js"
+        "href": "/AWA5.0/assets/entry-client-0305db13.js"
       },
       {
         "type": "style",
