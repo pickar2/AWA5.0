@@ -109,8 +109,8 @@ const Home: VoidComponent = () => {
   return (
     <>
       <main class="bg-slate-900 min-h-screen">
-        <Header />
-        <div class="flex absolute justify-center items-center w-full opacity-30 pointer-events-none">
+        {/* <Header /> */}
+        <div class="flex absolute justify-center items-center h-full w-full opacity-30 pointer-events-none">
           <div class="relative">
             <div class="opacity-0 absolute w-[33%] h-[17%] top-[8%] right-[27%] rounded-full rotate-[20deg] cursor-[grabbing] pointer-events-auto" />
             <img
