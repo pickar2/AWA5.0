@@ -3,20 +3,20 @@
     "type": "route",
     "script": {
       "type": "script",
-      "href": "/AWA5.0/assets/index-dd9cbc47.js"
+      "href": "/AWA5.0/assets/index-de04b311.js"
     },
     "assets": [
       {
         "type": "script",
-        "href": "/AWA5.0/assets/index-dd9cbc47.js"
+        "href": "/AWA5.0/assets/index-de04b311.js"
       },
       {
         "type": "script",
-        "href": "/AWA5.0/assets/entry-client-fe532a99.js"
+        "href": "/AWA5.0/assets/entry-client-9fb409d1.js"
       },
       {
         "type": "style",
-        "href": "/AWA5.0/assets/entry-client-d2435892.css"
+        "href": "/AWA5.0/assets/entry-client-e3984a49.css"
       }
     ]
   },
@@ -24,16 +24,16 @@
     "type": "entry",
     "script": {
       "type": "script",
-      "href": "/AWA5.0/assets/entry-client-fe532a99.js"
+      "href": "/AWA5.0/assets/entry-client-9fb409d1.js"
     },
     "assets": [
       {
         "type": "script",
-        "href": "/AWA5.0/assets/entry-client-fe532a99.js"
+        "href": "/AWA5.0/assets/entry-client-9fb409d1.js"
       },
       {
         "type": "style",
-        "href": "/AWA5.0/assets/entry-client-d2435892.css"
+        "href": "/AWA5.0/assets/entry-client-e3984a49.css"
       }
     ]
   },
