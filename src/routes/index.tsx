@@ -106,10 +106,28 @@ const Home: VoidComponent = () => {
     }
   };
 
+  // let canvasHeightInputRef: HTMLTextAreaElement | undefined;
+  // let canvasWidthInputRef: HTMLTextAreaElement | undefined;
+  // let canvasRef: HTMLCanvasElement | undefined;
+
+  // const updateCanvasSize = (
+  //   e: InputEvent & {
+  //     currentTarget: HTMLTextAreaElement;
+  //     target: HTMLTextAreaElement;
+  //   }
+  // ) => {
+  //   const numbers = e.target.value.replace(/\D+/gi, "");
+  //   e.target.value = numbers;
+  //   if (canvasRef && canvasHeightInputRef && canvasWidthInputRef) {
+  //     canvasRef.style.width = canvasWidthInputRef.value + "px";
+  //     canvasRef.style.height = canvasHeightInputRef.value + "px";
+  //   }
+  // };
+
   return (
     <>
       <main class="bg-slate-900 min-h-screen">
-        {/* <Header /> */}
+        <Header />
         <div class="flex absolute justify-center items-center h-full w-full opacity-30 pointer-events-none">
           <div class="relative">
             <div class="opacity-0 absolute w-[33%] h-[17%] top-[8%] right-[27%] rounded-full rotate-[20deg] cursor-[grabbing] pointer-events-auto" />
@@ -229,32 +247,29 @@ const Home: VoidComponent = () => {
                 class="resize-none h-7 w-12 text-center py-0"
                 innerText={"400"}
                 maxLength={4}
-                oninput={(e) => {
-                  const numbers = e.target.value.replace(/\D+/gi, "");
-                  e.target.value = numbers;
-                }}
+                oninput={updateCanvasSize}
+                ref={canvasWidthInputRef}
               />
               <span class="px-2 select-none">X</span>
               <TextArea
                 class="resize-none h-7 w-12 text-center py-0"
                 innerText={"300"}
                 maxLength={4}
-                oninput={(e) => {
-                  const numbers = e.target.value.replace(/\D+/gi, "");
-                  e.target.value = numbers;
-                }}
+                oninput={updateCanvasSize}
+                ref={canvasHeightInputRef}
               />
             </div>
             <div class="flex relative">
-              <div class="absolute w-full h-full flex text-center items-center justify-center pointer-events-none">
-                <span class="select-none">No content</span>
-              </div>
+              <div class="flex absolute pb-4">
+                <div class="absolute w-full h-full flex text-center items-center justify-center pointer-events-none">
+                  <span class="select-none">No content</span>
+                </div>
 
-              <canvas
-                width={400}
-                height={300}
-                class="border-[1px] border-border z-10 bg-slate-950/70"
-              />
+                <canvas
+                  ref={canvasRef}
+                  class="border-[1px] border-border z-10 bg-slate-950/70 w-[400px] h-[300px]"
+                />
+              </div>
             </div>
           </div> */}
         </div>

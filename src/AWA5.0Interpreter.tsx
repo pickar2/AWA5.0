@@ -1,4 +1,5 @@
 import type { Accessor, Setter } from "solid-js";
+import { boolean } from "zod";
 
 export enum awatisms {
   "nop" = 0,
@@ -720,7 +721,8 @@ export const awatismsToAwa = (str: string) => {
           const letters = val
             .substring(1, indexOfClosingQoutes + 1)
             .replaceAll(/\\n/g, "\n")
-            .split("");
+            .split("")
+            .filter((letter) => AwaSCII.indexOf(letter) !== -1);
           if (modifiers.reverse) letters.reverse();
 
           let counter = 0;
@@ -729,7 +731,7 @@ export const awatismsToAwa = (str: string) => {
             ret += "\n " + numberToAwa(awatisms.blo, 5, false);
             ret += numberToAwa(AwaSCII.indexOf(letter), 8, true);
             counter++;
-            if (modifiers.surround && counter == 31) {
+            if (modifiers.surround && counter === 31) {
               ret += "\n " + numberToAwa(awatisms.srn, 5, false);
               ret += numberToAwa(31, 5, false);
               if (needMerge) ret += "\n " + numberToAwa(awatisms.mrg, 5, false);
@@ -737,7 +739,7 @@ export const awatismsToAwa = (str: string) => {
               counter = 0;
             }
           }
-          if (modifiers.surround && counter !== 31) {
+          if (modifiers.surround && counter !== 0) {
             ret += "\n " + numberToAwa(awatisms.srn, 5, false);
             ret += numberToAwa(counter, 5, false);
             if (needMerge) ret += "\n " + numberToAwa(awatisms.mrg, 5, false);
@@ -750,20 +752,25 @@ export const awatismsToAwa = (str: string) => {
           ret += numberToAwa(parseInt(val), 8, true);
         } else {
           let counter = 0;
+          let hasNumber = false;
           const sign = Math.sign(num);
           num = Math.abs(num);
           while (num > 0) {
-            ret += "\n " + numberToAwa(awatisms.blo, 5, false);
-            ret += numberToAwa(num & 63, 8, true);
-            for (let i = 0; i < counter; i++) {
+            const currentNum = num & 63;
+            if (currentNum !== 0) {
               ret += "\n " + numberToAwa(awatisms.blo, 5, false);
-              ret += numberToAwa(64, 8, true);
-              ret += "\n " + numberToAwa(awatisms.mul, 5, false);
+              ret += numberToAwa(currentNum, 8, true);
+              for (let i = 0; i < counter; i++) {
+                ret += "\n " + numberToAwa(awatisms.blo, 5, false);
+                ret += numberToAwa(64, 8, true);
+                ret += "\n " + numberToAwa(awatisms.mul, 5, false);
+              }
+              if (hasNumber)
+                ret += "\n " + numberToAwa(awatisms["4dd"], 5, false);
+              hasNumber = true;
             }
-            if (counter > 0)
-              ret += "\n " + numberToAwa(awatisms["4dd"], 5, false);
-            num = num >> 6;
             counter++;
+            num = num >> 6;
           }
           if (sign < 0) {
             ret += "\n " + numberToAwa(awatisms.blo, 5, false);
